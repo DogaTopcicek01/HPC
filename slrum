@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A cosc622                  # ← YOUR PROJECT ACCOUNT
+#SBATCH -A CSC662                  # ← YOUR PROJECT ACCOUNT
 #SBATCH -J ddp_tutorial             # ← Job name
 #SBATCH --nodes=1                   # 1 Frontier node = 8 GPUs
 #SBATCH --gres=gpu:8
@@ -22,7 +22,8 @@ module load libfabric/1.22.0
 
 # ----- PYTHON ENVIRONMENT -----
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate /lustre/orion/cosc622/world-shared/<YOUR_USERNAME>/pytorch_env
+conda activate /lustre/orion/csc662/world-shared/topcicekd/pytorch_env
+
 
 echo "Using python: $(which python)"
 
