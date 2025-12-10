@@ -125,11 +125,22 @@ class Trainer:
         return avg_loss
 
     def _save_checkpoint(self, epoch, out_path_prefix="checkpoint"):
-        # Save only the underlying module's state_dict
-        ckp = self.model.module.state_dict()
-        PATH = f"{out_path_prefix}_epoch{epoch}.pt"
-        torch.save(ckp, PATH)
-        print(f"Epoch {epoch} | Training checkpoint saved at {PATH}", flush=True)
+    """
+    Save the model checkpoint in your Frontier project folder.
+    Only the underlying module's state_dict is saved.
+    """
+    # Make sure the checkpoint folder exists
+    CHECKPOINT_DIR = "/lustre/orion/csc662/world-shared/topcicekd/projects/ddp_frontier_test"
+    os.makedirs(CHECKPOINT_DIR, exist_ok=True)
+
+    # Construct full path
+    PATH = os.path.join(CHECKPOINT_DIR, f"{out_path_prefix}_epoch{epoch}.pt")
+
+    # Save the underlying DDP module's state_dict
+    torch.save(self.model.module.state_dict(), PATH)
+
+    print(f"[GPU{self.gpu_id}] Epoch {epoch} | Training checkpoint saved at {PATH}", flush=True)
+
 
     def train(self, max_epochs: int, rank: int):
         for epoch in range(max_epochs):
