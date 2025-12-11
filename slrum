@@ -43,6 +43,16 @@ export NCCL_PROTO=Simple
 
 export OMP_NUM_THREADS=7
 
+# Add these lines RIGHT BEFORE the "echo Starting DDP training..." line
+
+export MASTER_ADDR=$(scontrol show hostname $SLURM_NODELIST | head -n1)
+export MASTER_PORT=29500
+export WORLD_SIZE=$SLURM_NTASKS
+export RANK=$SLURM_PROCID
+export LOCAL_RANK=$SLURM_LOCALID
+
+echo "MASTER_ADDR=$MASTER_ADDR, MASTER_PORT=$MASTER_PORT"
+
 # ----- RUN YOUR PYTORCH DDP SCRIPT -----
 
 echo "Starting DDP training..."
