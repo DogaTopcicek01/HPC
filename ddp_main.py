@@ -147,6 +147,7 @@ class Trainer:
             self._run_epoch(epoch)
             # Only rank 0 should save checkpoints
             if rank == 0 and epoch % self.save_every == 0:
+                print(f"[INFO] Starting training on host {socket.gethostname()} | world_size={world_size} | rank={rank} | local_rank={local_rank}", flush=True)
                 self._save_checkpoint(epoch)
 
 
