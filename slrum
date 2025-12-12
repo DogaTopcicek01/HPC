@@ -40,10 +40,13 @@ export TORCH_NCCL_HIGH_PRIORITY=1
 
 export MIOPEN_DISABLE_CACHE=1
 export NCCL_PROTO=Simple
-
 export OMP_NUM_THREADS=7
 
-# Add these lines RIGHT BEFORE the "echo Starting DDP training..." line
+# Add these 3 lines from reference:
+export MIOPEN_USER_DB_PATH=/tmp/$SLURM_JOB_ID
+mkdir -p $MIOPEN_USER_DB_PATH
+export LD_PRELOAD=/lib64/libgcc_s.so.1:/usr/lib64/libstdc++.so.6
+
 
 export MASTER_ADDR=$(scontrol show hostname $SLURM_NODELIST | head -n1)
 export MASTER_PORT=29500
